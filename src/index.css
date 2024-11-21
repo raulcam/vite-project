@@ -1,0 +1,18 @@
+.btn-primary {
+  background-color: #01A3D1 !important;
+}
+
+/* i think this hover is ok, but i need an optinion */
+.btn-primary:hover {
+  background-color: #01a4d1d1 !important;
+}
+
+.bg-primary {
+  background-color: #01A3D1 !important;
+}
+
+.form-control:focus {
+  border-color: #01A3D1;
+  box-shadow: 0 0 0 0.2rem rgba(1, 163, 209, 0.25);
+}
+
