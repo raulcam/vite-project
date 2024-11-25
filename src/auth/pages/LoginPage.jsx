@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { sigIn } from "../../reducers/auth";
+import { setToken, sigIn } from "../../reducers/auth";
 import { useForm } from "react-hook-form";
 import Logo from "../../assets/icon-logo.jpg";
 import dentalImage from "../../assets/dental.jpg";
@@ -19,18 +19,16 @@ import {
   SubmitButton,
 } from "../styles/Login.styles";
 import Translation from "../Traslations";
+import api from "../../api/api";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const lenguageDefault = "en";
 
   const changeLanguage = (lenguage = "es") => {
     if (lenguage == "en") return Translation.en;
     return Translation.es;
   };
-
-  // Simulación de autenticación
 
   const {
     handleSubmit,
@@ -39,12 +37,19 @@ export const LoginPage = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    let body = {
+      username: data.username,
+      password: data.password,
+    };
     try {
-      await localStorage.setItem("@token", data.pass);
-      dispatch(sigIn(data.pass));
-      navigate("/");
-    } catch (error) {
-      console.log(error);
+      let response = await api.post("/auth/login", body);
+      if (response.status === 200) {
+        await localStorage.setItem("@token", response.data.token);
+        setToken(response.data.token)
+        navigate("/");
+      }
+    } catch (err) {
+      console.log(err || "Error al iniciar sesión");
     }
   };
 
@@ -63,7 +68,7 @@ export const LoginPage = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <InputGroup>
               <input
-                {...register("name", {
+                {...register("username", {
                   required: true,
                 })}
                 type="text"
@@ -73,7 +78,7 @@ export const LoginPage = () => {
             <InputGroup>
               <input
                 type="password"
-                {...register("pass", {
+                {...register("password", {
                   required: true,
                 })}
                 placeholder={changeLanguage(lenguageDefault).password}
@@ -106,3 +111,4 @@ export const LoginPage = () => {
     </Container>
   );
 };
+

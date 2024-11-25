@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Home } from "../home/components/Home";
+import React from "react";
 import { Dashboard } from "../dashboard/page/Dashboard";
 import { DashboardContent } from "../dashboard/components/DashboardContent";
 import { LoginPage } from "../auth/pages/LoginPage";
@@ -27,7 +28,7 @@ export const router = createBrowserRouter(
   ],
   {
     future: {
-      v7_skipActionErrorRevalidation: true,
+      v7_startTransition: true ,v7_skipActionErrorRevalidation:true,
     },
   }
 );

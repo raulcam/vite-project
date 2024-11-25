@@ -11,7 +11,7 @@ export const fetchData = createAsyncThunk(
       return rejectWhiteValue("Token no disponible");
     }
     try {
-      const response = api.get("http://localhost:4000/data", {
+      const response = api.get("http://localhost:4000/users", {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
@@ -47,12 +47,7 @@ const authSlice = createSlice({
     },
     setToken: (state, action) => {
       state.userToken = action.payload;
-    },
-    clearAuth: (state) => {
-      state.userToken = null;
-      state.data = null;
-      state.error = null;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
