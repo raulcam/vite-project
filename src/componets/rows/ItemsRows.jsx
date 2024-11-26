@@ -1,92 +1,28 @@
-import React, { useEffect, useState  } from "react";
 import {
   TableRow,
   TableData,
-  ActionButton,
   ActionContainer,
-} from "../items.styles";
-import { fetchData } from "../../reducers/auth";
-import { useDispatch, useSelector } from "react-redux";
-import api from "../../api/api";
+  ViewButton,
+  EditButton,
+  DeleteButton,
+} from "./items.styles";
+import Modal from "../modalForm/ModalForm";
+import { handelUser } from "../../tools/metods";
 
-const inventory = [
-  {
-    id: 1,
-    name: "admin",
-    username: "admin",
-    password: "admin123",
-    phone: "5584789865",
-    email: "admin@gmail.com",
-    status: 1,
-    isUser: false,
-    createAt: "05/05/2024",
-    updateAt: "06/07/2024",
-  },
-  {
-    id: 2,
-    name: "admin",
-    username: "admin",
-    password: "admin123",
-    phone: "5584789865",
-    email: "admin@gmail.com",
-    status: 1,
-    isUser: false,
-    createAt: "05/05/2024",
-    updateAt: "06/07/2024",
-  },
-  {
-    id: 3,
-    name: "admin",
-    username: "admin",
-    password: "admin123",
-    phone: "5584789865",
-    email: "admin@gmail.com",
-    status: 1,
-    isUser: false,
-    createAt: "05/05/2024",
-    updateAt: "06/07/2024",
-  },
-  {
-    id: 4,
-    name: "admin",
-    username: "admin",
-    password: "admin123",
-    phone: "5584789865",
-    email: "admin@gmail.com",
-    status: 1,
-    isUser: false,
-    createAt: "05/05/2024",
-    updateAt: "06/07/2024",
-  },
-];
+const ItemsRows = (props) => {
+  const {
+    data,
+    openModal,
+    isModalOpen,
+    modalMode,
+    closeModal,
+    selectedItem,
+    handleAction,
+    setinput
+  } = props;
 
-const ItemsRows = ({ setModalEdit, setModalDelete, setModalDetail }) => {
-  const [data, setData] = useState({
-    isFeching: true,
-    users:[],
-  });
-  useEffect(() => {
-    getUsers();
-  }, []);
 
-  const getUsers = async () => {
-    try {
-      let res = await api.get("/users");
-      if (res.status == 200) {
-        setData({...data, isFeching:false, users: res.data})
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handelUser = (isuser) => {
-    if (isuser) {
-      return "Si";
-    } else {
-      return "No";
-    }
-  };
+ 
   return (
     <>
       {data?.users?.map((element) => (
@@ -97,35 +33,41 @@ const ItemsRows = ({ setModalEdit, setModalDelete, setModalDetail }) => {
           <TableData>{element.email}</TableData>
           <TableData>{element.status}</TableData>
           <TableData>{handelUser(element.isUser)}</TableData>
-          <TableData>{handelUser(element.isUser)}</TableData>
-          {/* Actions */}
+
           <TableData>
             <ActionContainer>
-              <ActionButton
-                className="success"
+              <ViewButton
                 title="Ver"
-                onClick={() => setModalDetail(true)}
+                onClick={() => openModal("view", element)}
               >
-                correcto
-              </ActionButton>
-              <ActionButton
-                className="warning"
+                Correcto
+              </ViewButton>
+              <EditButton
                 title="Editar"
-                onClick={() => setModalEdit(true)}
+                onClick={() => openModal("edit", element)}
               >
-                editar
-              </ActionButton>
-              <ActionButton
-                className="danger"
+                Editar
+              </EditButton>
+              <DeleteButton
                 title="Eliminar"
-                onClick={() => setModalDelete(true)}
+                onClick={() => openModal("delete", element)}
               >
-                eliminar
-              </ActionButton>
+                Eliminar
+              </DeleteButton>
             </ActionContainer>
           </TableData>
         </TableRow>
       ))}
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        mode={modalMode}
+        itemData={selectedItem}
+        onAction={handleAction}
+        setinput={setinput}
+
+      />
     </>
   );
 };

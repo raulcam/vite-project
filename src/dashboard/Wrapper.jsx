@@ -1,18 +1,18 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { Siderbar } from "../components/navigation/SideBar";
-import { NavBar } from "../components/navigation/NavBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { restoreToken, fetchData, setToken } from "../../reducers/auth";
+import { restoreToken, setToken } from "../reducers/auth";
+import Siderbar from "./components/navigation/SideBar";
+import NavBar from "./components/navigation/NavBar";
 
-export const Dashboard = () => {
+
+export const Wrapper = () => {
   const dispatch = useDispatch();
   const { userToken, isLoding } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(setToken(userToken));
   }, [dispatch]);
-
 
   useEffect(() => {
     getUserToken();
@@ -39,9 +39,9 @@ export const Dashboard = () => {
     <>
       {userToken !== undefined || userToken !== null ? (
         <div className="wrapper" style={{ alignItems: "baseline" }}>
-          <Siderbar />
+          <Siderbar/>
           <div className="main">
-            <NavBar />
+            <NavBar/>
             <main className="content">
               <Outlet />
             </main>

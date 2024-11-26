@@ -1,19 +1,19 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Home } from "../home/components/Home";
 import React from "react";
-import { Dashboard } from "../dashboard/page/Dashboard";
-import { DashboardContent } from "../dashboard/components/DashboardContent";
 import { LoginPage } from "../auth/pages/LoginPage";
+import { DashboardPage } from "../dashboard/page/DashboardPage";
+import { Wrapper } from "../dashboard/Wrapper";
 
 export const router = createBrowserRouter(
   [
     {
       path: "/",
-      element: <Dashboard />,
+      element: <Wrapper/>,
       children: [
         {
           index: true,
-          element: <DashboardContent />,
+          element: <DashboardPage/>,
         },
         {
           path: "/home",
@@ -28,7 +28,7 @@ export const router = createBrowserRouter(
   ],
   {
     future: {
-      v7_startTransition: true ,v7_skipActionErrorRevalidation:true,
+      v7_startTransition: true
     },
   }
 );

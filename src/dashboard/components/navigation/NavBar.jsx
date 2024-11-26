@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { singOut } from "../../../reducers/auth";
 
-export const NavBar = () => {
+function NavBar(){
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -14,10 +14,12 @@ export const NavBar = () => {
   return (
     <Nav>
       <p>Navbar</p>
-      <button onClick = {()=>handleLogout()} className="buttonLogOut">Cerrar sesion</button>
+      <StyledButton onClick = {()=>handleLogout()} className="buttonLogOut">Cerrar sesion</StyledButton>
     </Nav>
   );
 };
+
+export default NavBar;
 
 const Nav = styled.div`
   display: flex;
@@ -35,5 +37,28 @@ const Nav = styled.div`
     &:hover{
         background: #4699e7;
     }
+  }
+`;
+
+const StyledButton = styled.button`
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #d9363e;
+  }
+
+  &:active {
+    background-color: #a82a2f;
+  }
+
+  &:focus {
+    outline: none;
   }
 `;
