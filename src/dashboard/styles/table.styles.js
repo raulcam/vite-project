@@ -11,6 +11,11 @@ export const CardBody = styled.div`
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  .actions{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 `;
 
 export const TableWrapper = styled.div`
@@ -123,4 +128,33 @@ export const PaginationWrapper = styled.nav`
       }
     }
   }
+`;
+
+export const AddButton = styled.button`
+
+  font-size: 0.9rem;
+  padding: 10px 15px 10px 15px;
+  border-radius: 8px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+
+  flex: 1; /* Ocupa el mismo espacio que otros botones en el grupo */
+  min-width: 100px; /* Ancho mínimo del botón */
+  max-width: 120px; /* Ancho máximo */
+  text-align: center;
+
+  &:hover {
+    opacity: 0.8; /* Efecto al pasar el mouse */
+  }
+
+  &:active {
+    transform: scale(0.95); /* Efecto de clic */
+  }
+`;
+
+export const AddUser = styled(AddButton)`
+  background-color: #3498db; /* Verde */
 `;

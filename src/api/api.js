@@ -4,23 +4,22 @@ export const KEY = "mySecretKey123";
 
 const api = axios.create({
   baseURL: "http://localhost:4000",
-  withCredentials: true
+  withCredentials: true,
 });
 
 api.interceptors.request.use(
-  (config)=>{
+  (config) => {
     if (!config.url.includes("auth")) {
-      const token = localStorage.getItem('@token');
+      const token = localStorage.getItem("@token");
       if (token) {
-        config.headers.Authorization = `${KEY} ${token}`
+        config.headers.Authorization = `${KEY} ${token}`;
       }
     }
     return config;
   },
-  (err)=>{
+  (err) => {
     return Promise.reject(err);
   }
-  
-)
+);
 
 export default api;

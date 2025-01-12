@@ -21,12 +21,10 @@ const ItemsRows = (props) => {
     setinput
   } = props;
 
-
- 
   return (
     <>
-      {data?.users?.map((element) => (
-        <TableRow key={element.id}>
+      {data?.users?.map((element,index) => (
+        <TableRow key={index}>
           <TableData>{element.name}</TableData>
           <TableData>{element.username}</TableData>
           <TableData>{element.phone}</TableData>

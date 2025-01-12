@@ -38,6 +38,11 @@ const Modal = ({
       color: "#f44336",
       buttonText: "Eliminar",
     },
+    add:{
+      title: "Agregar usuario",
+      color: "#5dade2",
+      buttonText: "Eliminar",
+    }
   };
 
   const { title, color, buttonText } = modalSettings[mode] || {};

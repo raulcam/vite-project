@@ -38,14 +38,14 @@ export const LoginPage = () => {
 
   const onSubmit = async (data) => {
     let body = {
-      username: data.username,
+      email: data.email,
       password: data.password,
     };
     try {
       let response = await api.post("/auth/login", body);
       if (response.status === 200) {
         await localStorage.setItem("@token", response.data.token);
-        setToken(response.data.token)
+        setToken(response.data.token);
         navigate("/");
       }
     } catch (err) {
@@ -68,11 +68,11 @@ export const LoginPage = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <InputGroup>
               <input
-                {...register("username", {
+                type="email"
+                {...register("email", {
                   required: true,
                 })}
-                type="text"
-                placeholder={changeLanguage(lenguageDefault).username}
+                placeholder={changeLanguage(lenguageDefault).email}
               />
             </InputGroup>
             <InputGroup>
@@ -111,4 +111,3 @@ export const LoginPage = () => {
     </Container>
   );
 };
-

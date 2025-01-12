@@ -6,6 +6,7 @@ import {
   Table,
   TableHead,
   TableBody,
+  AddUser
 } from "../styles/table.styles";
 import ItemsRows from "../../componets/rows/ItemsRows";
 import api from "../../api/api";
@@ -14,10 +15,14 @@ export const DashboardPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("view"); // "view", "edit", "delete"
   const [selectedItem, setSelectedItem] = useState();
-  const [input, setinput] = useState('');
+  const [input, setinput] = useState("");
+  const [addUser, setAddUser] = useState({
+
+  });
   const [isSuccess, setIsSuccess] = useState({
     isDelete: false,
     isEdit: false,
+    isAdd: false
   });
 
   const [data, setData] = useState({
@@ -53,20 +58,21 @@ export const DashboardPage = () => {
       putUsers(item);
     } else if (mode === "delete") {
       deleteUsers(item);
+    } else if(mode === "add"){
+      alert('agregar')
     }
     closeModal();
   };
-  
+
   const putUsers = async (item) => {
-    
     try {
       setIsSuccess({ ...isSuccess, isEdit: false });
       let body = {
-        name: input
-      }
+        name: input,
+      };
       let res = await api.put(`/users/${item.id}`, body);
       console.log(res);
-      
+
       if (res.status == 200) {
         setIsSuccess({ ...isSuccess, isEdit: true });
         closeModal();
@@ -75,6 +81,7 @@ export const DashboardPage = () => {
       console.log(error);
     }
   };
+
   const deleteUsers = async (item) => {
     try {
       setIsSuccess({ ...isSuccess, isDelete: false });
@@ -88,10 +95,23 @@ export const DashboardPage = () => {
     }
   };
 
+  const addUsers= async()=>{
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
+
   return (
     <Container>
       <CardBody>
-        <h1>Tabla de Usuarios</h1>
+        <div
+          className="actions"
+        >
+          <h1>Tabla de Usuarios</h1>
+          <AddUser onClick={()=>openModal('add')}>Agregar</AddUser>
+        </div>
 
         <TableWrapper>
           <Table>
