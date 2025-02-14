@@ -1,70 +1,40 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../api/api";
 
-export const fetchData = createAsyncThunk(
-  "auth/fetchData",
-  async (_, { getState, rejectWhiteValue }) => {
-    const state = getState();
-    const token = state.auth.userToken;
+// Acción asíncrona para obtener los datos del usuario
+export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
+  const response = await api.get("users/me");
+  return response.data;
+});
 
-    if (!token) {
-      return rejectWhiteValue("Token no disponible");
-    }
-    try {
-      const response = api.get("http://localhost:4000/users", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      return response.data;
-    } catch (error) {
-      return rejectWhiteValue(error.response.data || "Error en la peticion");
-    }
-  }
-);
+const initialState = {
+  token: null,
+  isLoading: true,
+  isSingOut: false,
+};
+
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    userToken: null,
-    isLoding: false,
-    isSingout: false,
-    error: null,
-    data: null,
-  },
+  initialState,
   reducers: {
-    restoreToken: (state, action) => {
-      state.userToken = action.payload;
-      state.isLoding = false;
+    //Restaura el token si es que lo hay
+    restoretoken:(state, action)=>{
+      state.token = action.payload;
+      state.isLoading = false;
     },
-
-    sigIn: (state, action) => {
-      state.isSingout = false;
-      state.userToken = action.payload;
+    //Gruada el accestoken y lo lanza
+    singIn:(state, action)=>{
+      state.isSingOut = false;
+      state.token = action.payload;
     },
-    singOut: (state) => {
-      state.isSingout = true;
-      state.userToken = null;
+    singOut:(state, action)=>{
+      state.isSingOut = true;
+      state.token = null;
       localStorage.removeItem("@token");
-    },
-    setToken: (state, action) => {
-      state.userToken = action.payload;
     }
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchData.pending, (state) => {
-        state.isLoding = true;
-        state.error = null;
-      })
-      .addCase(fetchData.fulfilled, (state, action) => {
-        state.isLoding = false;
-        state.data = action.payload;
-      })
-      .addCase(fetchData.rejected, (state, action) => {
-        state.isLoding = false;
-        state.error = action.payload;
-      });
   },
 });
 
-export const { sigIn, singOut, restoreToken, setToken } = authSlice.actions;
+export const { singIn, singOut,restoretoken } = authSlice.actions;
 export default authSlice.reducer;

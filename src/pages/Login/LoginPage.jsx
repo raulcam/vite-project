@@ -1,6 +1,4 @@
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { setToken, sigIn } from "../../reducers/auth";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Logo from "../../assets/icon-logo.jpg";
 import dentalImage from "../../assets/dental.jpg";
@@ -17,13 +15,18 @@ import {
   FooterText,
   InputGroup,
   SubmitButton,
-} from "../styles/Login.styles";
-import Translation from "../Traslations";
+} from "../../auth/Login.styles";
+import Translation from "../../auth/Traslations";
 import api from "../../api/api";
+import { useDispatch } from "react-redux";
+import { singIn } from "../../reducers/auth";
+import { useEffect } from "react";
 
-export const LoginPage = () => {
+const LoginPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const lenguageDefault = "en";
+  const dispatch = useDispatch();
 
   const changeLanguage = (lenguage = "es") => {
     if (lenguage == "en") return Translation.en;
@@ -36,6 +39,13 @@ export const LoginPage = () => {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      location.push("/");
+    }
+  }, [location]);
+
   const onSubmit = async (data) => {
     let body = {
       email: data.email,
@@ -45,7 +55,7 @@ export const LoginPage = () => {
       let response = await api.post("/auth/login", body);
       if (response.status === 200) {
         await localStorage.setItem("@token", response.data.token);
-        setToken(response.data.token);
+        dispatch(singIn(response.data.token))
         navigate("/");
       }
     } catch (err) {
@@ -111,3 +121,5 @@ export const LoginPage = () => {
     </Container>
   );
 };
+
+export default LoginPage;

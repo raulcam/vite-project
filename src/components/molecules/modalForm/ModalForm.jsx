@@ -7,6 +7,7 @@ import {
   ModalActions,
   ActionButton,
 } from "./modal.styles";
+import { Input } from "../../atoms/input/input";
 
 // Componente Modal
 
@@ -18,6 +19,8 @@ const Modal = ({
   onAction,
   setinput,
   input,
+  setAddUser,
+  addUser,
 }) => {
   if (!isOpen) return null;
 
@@ -38,11 +41,11 @@ const Modal = ({
       color: "#f44336",
       buttonText: "Eliminar",
     },
-    add:{
+    add: {
       title: "Agregar usuario",
       color: "#5dade2",
-      buttonText: "Eliminar",
-    }
+      buttonText: "Agregar",
+    },
   };
 
   const { title, color, buttonText } = modalSettings[mode] || {};
@@ -61,21 +64,15 @@ const Modal = ({
 
       case "edit":
         return (
-          <input
+          <Input
             type="text"
             value={input}
             onChange={(e) => setinput(e.target.value)}
             defaultValue={itemData.name}
             placeholder="Editar datos"
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginBottom: "10px",
-              borderRadius: "6px",
-              border: "1px solid #ccc",
-            }}
           />
         );
+
       case "delete":
         return (
           <div>
@@ -86,6 +83,32 @@ const Modal = ({
               <p>Usuario: {itemData.username}</p>
             </div>
           </div>
+        );
+
+      case "add":
+        return (
+          <>
+            <Input
+              type="text"
+              value={addUser.name}
+              onChange={(e) => setAddUser({...addUser, name: e.target.value })}
+              placeholder="Agrega tu nombre"
+            />
+
+            <Input 
+              type="email"
+              value={addUser.email}
+              onChange={(e) => setAddUser({...addUser, email: e.target.value })}
+              placeholder="Agrega tu correo"
+            />
+
+            <Input
+              type="password"
+              value={addUser.password}
+              onChange={(e) => setAddUser({...addUser, password: e.target.value })}
+              placeholder="Agrega tu contraseña"
+            />
+          </>
         );
 
       default:

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const KEY = "mySecretKey123";
+export const KEY = "MY_SECRET";
 
 const api = axios.create({
   baseURL: "http://localhost:4000",
@@ -12,7 +12,7 @@ api.interceptors.request.use(
     if (!config.url.includes("auth")) {
       const token = localStorage.getItem("@token");
       if (token) {
-        config.headers.Authorization = `${KEY} ${token}`;
+        config.headers.Authorization = token;
       }
     }
     return config;
@@ -22,4 +22,4 @@ api.interceptors.request.use(
   }
 );
 
-export default api;
+export default api; 

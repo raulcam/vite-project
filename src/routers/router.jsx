@@ -1,23 +1,24 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Home } from "../home/components/Home";
+import  Home  from "../pages/home/home";
 import React from "react";
-import { LoginPage } from "../auth/pages/LoginPage";
-import { DashboardPage } from "../dashboard/page/DashboardPage";
-import { Wrapper } from "../dashboard/Wrapper";
+import LoginPage from "../pages/Login/LoginPage";
+import  ListUsers  from "../pages/list/ListUsers";
+import { Wrapper } from "../pages/wrapper/Wrapper";
+import ProtectedRoute from "../helpers/Protectedroute";
 
 export const router = createBrowserRouter(
   [
     {
       path: "/",
-      element: <Wrapper/>,
+      element: <Wrapper />,
       children: [
         {
           index: true,
-          element: <DashboardPage/>,
+          element: <Home />,
         },
         {
-          path: "/home",
-          element: <Home />,
+          path: "/listUsers",
+          element: <ProtectedRoute element={<ListUsers />} requiredRoles={['superadmin','admin']}/>,
         },
       ],
     },
@@ -28,7 +29,7 @@ export const router = createBrowserRouter(
   ],
   {
     future: {
-      v7_startTransition: true
+      v7_startTransition: true,
     },
   }
 );
